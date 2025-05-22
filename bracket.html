@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Tournament Bracket</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f4f4f4 0%, #fbfbfb 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .bracket-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+            margin: 20px 0;
+        }
+        
+        .bracket {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px;
+        }
+        
+        .bracket-round {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 200px;
+        }
+        
+        .match {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 100px;
+        }
+        
+        .match:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.2);
+        }
+        
+        .match.completed {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .participant {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 3px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .participant:hover {
+            background: #e9ecef;
+        }
+        
+        .participant.winner {
+            background: #d4edda;
+            border-color: #28a745;
+            font-weight: bold;
+        }
+        
+        .participant.loser {
+            background: #f8d7da;
+            border-color: #dc3545;
+            opacity: 0.7;
+        }
+        
+        .round-title {
+            text-align: center;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 15px;
+            padding: 8px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+        
+        .winners-bracket {
+            border-left: 4px solid #28a745;
+            padding-left: 20px;
+        }
+        
+        .losers-bracket {
+            border-left: 4px solid #dc3545;
+            padding-left: 20px;
+            margin-top: 40px;
+        }
+        
+        .bracket-section {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding: 10px;
+        }
+        
+        .add-participant-form {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .tournament-header {
+            text-align: center;
+            color: rgb(0, 0, 0);
+            margin-bottom: 30px;
+        }
+        
+        .reset-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .participant-count {
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="tournament-header">
+            <h1 class="display-4">Tournament Bracket Creator</h1>
+            <p class="lead">Add participants and track winners through both winners and losers brackets</p>
+        </div>
+        
+        <button class="btn btn-info reset-btn" onclick="resetTournament()">Reset Tournament</button>
+        
+        <div class="bracket-container">
+            <!-- Add Participants Section -->
+            <div class="add-participant-form">
+                <h3>Add Participants</h3>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-8">
+                        <input type="text" id="participantName" class="form-control" placeholder="Enter participant name" onkeypress="handleEnterKey(event)">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary w-100" onclick="addParticipant()">Add</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-success w-100" onclick="startTournament()">Start Tournament</button>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h5>Participants (<span id="participantCount">0</span>):</h5>
+                    <div id="participantsList" class="d-flex flex-wrap gap-2 mt-2"></div>
+                </div>
+            </div>
+            
+            <!-- Winners Bracket -->
+            <div class="winners-bracket">
+                <h2 class="text-success mb-3">Winners Bracket</h2>
+                <div id="winnersBracket" class="bracket-section"></div>
+            </div>
+            
+            <!-- Losers Bracket -->
+            <div class="losers-bracket">
+                <h2 class="text-danger mb-3">Losers Bracket</h2>
+                <div id="losersBracket" class="bracket-section"></div>
+            </div>
+            
+            <!-- Champion Section -->
+            <div id="championSection" class="text-center mt-4" style="display: none;">
+                <h2 class="text-warning">🎉 Tournament Champion 🎉</h2>
+                <div id="championName" class="display-5 text-primary font-weight-bold"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let participants = [];
+        let tournamentStarted = false;
+        let winnersBracket = [];
+        let losersBracket = [];
+        let currentWinnersRound = 0;
+        let currentLosersRound = 0;
+
+        function handleEnterKey(event) {
+            if (event.key === 'Enter') {
+                addParticipant();
+            }
+        }
+
+        function addParticipant() {
+            const nameInput = document.getElementById('participantName');
+            const name = nameInput.value.trim();
+            
+            if (name && !participants.includes(name) && !tournamentStarted) {
+                participants.push(name);
+                nameInput.value = '';
+                updateParticipantsList();
+            }
+        }
+
+        function updateParticipantsList() {
+            const list = document.getElementById('participantsList');
+            const count = document.getElementById('participantCount');
+            
+            count.textContent = participants.length;
+            list.innerHTML = participants.map((name, index) => 
+                `<span class="badge bg-primary fs-6 position-relative">
+                    ${name}
+                    <button type="button" class="btn-close btn-close-white ms-2" style="font-size: 10px;" onclick="removeParticipant(${index})"></button>
+                </span>`
+            ).join('');
+        }
+
+        function removeParticipant(index) {
+            if (!tournamentStarted) {
+                participants.splice(index, 1);
+                updateParticipantsList();
+            }
+        }
+
+        function startTournament() {
+            if (participants.length < 2) {
+                alert('Need at least 2 participants to start tournament!');
+                return;
+            }
+            
+            tournamentStarted = true;
+            shuffleArray(participants);
+            initializeBrackets();
+            renderBrackets();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function initializeBrackets() {
+            // Initialize winners bracket
+            winnersBracket = [];
+            const firstRound = [];
+            
+            // Create first round matches
+            for (let i = 0; i < participants.length; i += 2) {
+                if (i + 1 < participants.length) {
+                    firstRound.push({
+                        participants: [participants[i], participants[i + 1]],
+                        winner: null,
+                        completed: false,
+                        id: `w-0-${i/2}`
+                    });
+                } else {
+                    // Bye - participant advances automatically
+                    firstRound.push({
+                        participants: [participants[i], 'BYE'],
+                        winner: participants[i],
+                        completed: true,
+                        id: `w-0-${i/2}`
+                    });
+                }
+            }
+            
+            winnersBracket.push(firstRound);
+            
+            // Create subsequent rounds for winners bracket
+            let currentRoundSize = Math.ceil(firstRound.length / 2);
+            let roundIndex = 1;
+            
+            while (currentRoundSize > 0) {
+                const round = [];
+                for (let i = 0; i < currentRoundSize; i++) {
+                    round.push({
+                        participants: [null, null],
+                        winner: null,
+                        completed: false,
+                        id: `w-${roundIndex}-${i}`
+                    });
+                }
+                winnersBracket.push(round);
+                
+                if (currentRoundSize === 1) break;
+                currentRoundSize = Math.ceil(currentRoundSize / 2);
+                roundIndex++;
+            }
+            
+            // Initialize losers bracket
+            losersBracket = [];
+            initializeLosersbracket();
+        }
+
+        function initializeLosersbracket() {
+            if (participants.length <= 2) return;
+            
+            const totalWinnersRounds = winnersBracket.length - 1; // Exclude final
+            const losersRounds = Math.max(1, (totalWinnersRounds - 1) * 2);
+            
+            for (let i = 0; i < losersRounds; i++) {
+                losersBracket.push([]);
+            }
+        }
+
+        function selectWinner(bracketType, roundIndex, matchIndex, participantIndex) {
+            let bracket = bracketType === 'winners' ? winnersBracket : losersBracket;
+            let match = bracket[roundIndex][matchIndex];
+            
+            if (match.completed || !match.participants[participantIndex]) return;
+            
+            const winner = match.participants[participantIndex];
+            const loser = match.participants[1 - participantIndex];
+            
+            match.winner = winner;
+            match.completed = true;
+            
+            // Advance winner in current bracket
+            if (bracketType === 'winners') {
+                advanceWinnerInWinnersBracket(winner, roundIndex, matchIndex);
+                if (loser && loser !== 'BYE') {
+                    addToLosersBracket(loser, roundIndex);
+                }
+            } else {
+                advanceWinnerInLosersBracket(winner, roundIndex, matchIndex);
+            }
+            
+            renderBrackets();
+            checkForChampion();
+        }
+
+        function advanceWinnerInWinnersBracket(winner, roundIndex, matchIndex) {
+            if (roundIndex + 1 < winnersBracket.length) {
+                const nextRound = winnersBracket[roundIndex + 1];
+                const nextMatchIndex = Math.floor(matchIndex / 2);
+                const participantSlot = matchIndex % 2;
+                
+                if (nextRound[nextMatchIndex]) {
+                    nextRound[nextMatchIndex].participants[participantSlot] = winner;
+                }
+            }
+        }
+
+        function advanceWinnerInLosersBracket(winner, roundIndex, matchIndex) {
+            if (roundIndex + 1 < losersBracket.length) {
+                const nextRound = losersBracket[roundIndex + 1];
+                const nextMatchIndex = Math.floor(matchIndex / 2);
+                const participantSlot = matchIndex % 2;
+                
+                // Ensure the match exists
+                if (!nextRound[nextMatchIndex]) {
+                    nextRound[nextMatchIndex] = {
+                        participants: [null, null],
+                        winner: null,
+                        completed: false,
+                        id: `l-${roundIndex + 1}-${nextMatchIndex}`
+                    };
+                }
+                
+                nextRound[nextMatchIndex].participants[participantSlot] = winner;
+            }
+        }
+
+        function addToLosersBracket(loser, winnersRoundIndex) {
+            if (losersBracket.length === 0) return;
+            
+            // Determine which losers bracket round to add to
+            let losersRoundIndex = Math.max(0, winnersRoundIndex - 1);
+            if (losersRoundIndex >= losersBracket.length) {
+                losersRoundIndex = losersBracket.length - 1;
+            }
+            
+            const losersRound = losersBracket[losersRoundIndex];
+            
+            // Find an empty slot or create a new match
+            let placed = false;
+            for (let i = 0; i < losersRound.length; i++) {
+                if (!losersRound[i].participants[0]) {
+                    losersRound[i].participants[0] = loser;
+                    placed = true;
+                    break;
+                } else if (!losersRound[i].participants[1]) {
+                    losersRound[i].participants[1] = loser;
+                    placed = true;
+                    break;
+                }
+            }
+            
+            if (!placed) {
+                losersRound.push({
+                    participants: [loser, null],
+                    winner: null,
+                    completed: false,
+                    id: `l-${losersRoundIndex}-${losersRound.length}`
+                });
+            }
+        }
+
+        function renderBrackets() {
+            renderWinnersBracket();
+            renderLosersBracket();
+        }
+
+        function renderWinnersBracket() {
+            const container = document.getElementById('winnersBracket');
+            container.innerHTML = '';
+            
+            winnersBracket.forEach((round, roundIndex) => {
+                const roundDiv = document.createElement('div');
+                roundDiv.className = 'bracket-round';
+                
+                const title = document.createElement('div');
+                title.className = 'round-title';
+                title.textContent = roundIndex === winnersBracket.length - 1 ? 'Finals' : 
+                                  roundIndex === winnersBracket.length - 2 ? 'Semi-Finals' : 
+                                  `Round ${roundIndex + 1}`;
+                roundDiv.appendChild(title);
+                
+                round.forEach((match, matchIndex) => {
+                    const matchDiv = createMatchElement(match, 'winners', roundIndex, matchIndex);
+                    roundDiv.appendChild(matchDiv);
+                });
+                
+                container.appendChild(roundDiv);
+            });
+        }
+
+        function renderLosersBracket() {
+            const container = document.getElementById('losersBracket');
+            container.innerHTML = '';
+            
+            if (losersBracket.length === 0) return;
+            
+            losersBracket.forEach((round, roundIndex) => {
+                if (round.length === 0) return;
+                
+                const roundDiv = document.createElement('div');
+                roundDiv.className = 'bracket-round';
+                
+                const title = document.createElement('div');
+                title.className = 'round-title';
+                title.textContent = `Losers Round ${roundIndex + 1}`;
+                roundDiv.appendChild(title);
+                
+                round.forEach((match, matchIndex) => {
+                    const matchDiv = createMatchElement(match, 'losers', roundIndex, matchIndex);
+                    roundDiv.appendChild(matchDiv);
+                });
+                
+                container.appendChild(roundDiv);
+            });
+        }
+
+        function createMatchElement(match, bracketType, roundIndex, matchIndex) {
+            const matchDiv = document.createElement('div');
+            matchDiv.className = `match ${match.completed ? 'completed' : ''}`;
+            
+            const participant1 = match.participants[0] || 'TBD';
+            const participant2 = match.participants[1] || 'TBD';
+            
+            matchDiv.innerHTML = `
+                <div class="participant ${match.winner === participant1 ? 'winner' : match.completed ? 'loser' : ''}" 
+                     onclick="selectWinner('${bracketType}', ${roundIndex}, ${matchIndex}, 0)">
+                    <span>${participant1}</span>
+                    ${match.winner === participant1 ? '<span class="badge bg-success">W</span>' : ''}
+                </div>
+                <div class="participant ${match.winner === participant2 ? 'winner' : match.completed ? 'loser' : ''}" 
+                     onclick="selectWinner('${bracketType}', ${roundIndex}, ${matchIndex}, 1)">
+                    <span>${participant2}</span>
+                    ${match.winner === participant2 ? '<span class="badge bg-success">W</span>' : ''}
+                </div>
+            `;
+            
+            return matchDiv;
+        }
+
+        function checkForChampion() {
+            const finalMatch = winnersBracket[winnersBracket.length - 1][0];
+            if (finalMatch && finalMatch.completed) {
+                document.getElementById('championSection').style.display = 'block';
+                document.getElementById('championName').textContent = finalMatch.winner;
+            }
+        }
+
+        function resetTournament() {
+            if (confirm('Are you sure you want to reset the tournament?')) {
+                participants = [];
+                tournamentStarted = false;
+                winnersBracket = [];
+                losersBracket = [];
+                currentWinnersRound = 0;
+                currentLosersRound = 0;
+                
+                updateParticipantsList();
+                document.getElementById('winnersBracket').innerHTML = '';
+                document.getElementById('losersBracket').innerHTML = '';
+                document.getElementById('championSection').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
