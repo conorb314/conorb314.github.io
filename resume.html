@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conor Byrne - Resume</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--primary-color);
+            line-height: 1.6;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section:nth-child(even) {
+            background: var(--light-gray);
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .progress-bar {
+            transition: width 2s ease-in-out;
+        }
+
+        .navbar {
+            background: rgba(255,255,255,0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #3498db;
+            white-space: nowrap;
+            animation: typing 2s steps(30, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #3498db }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#home">Conor Byrne</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-3">Conor Byrne</h1>
+                    <p class="typewriter h4 mb-4">Student Developer</p>
+                    <p class="lead mb-4">Winchester High School student passionate about coding and technology.</p>
+                    <button class="btn btn-light btn-lg me-3" data-bs-toggle="modal" data-bs-target="#contactModal">
+                        <i class="bi bi-envelope me-2"></i>Contact Me
+                    </button>
+                    <button class="btn btn-outline-light btn-lg" onclick="scrollTo('projects')">
+                        <i class="bi bi-code-slash me-2"></i>View Work
+                    </button>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="bg-white bg-opacity-20 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 200px; height: 200px;">
+                        <i class="bi bi-person-fill" style="font-size: 80px; color: white;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="h1 fw-bold mb-5">About Me</h2>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 text-center p-4">
+                                <i class="bi bi-mortarboard-fill text-primary fs-1 mb-3"></i>
+                                <h5>Student</h5>
+                                <p class="text-muted">Winchester High School</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 text-center p-4">
+                                <i class="bi bi-code-square text-success fs-1 mb-3"></i>
+                                <h5>Developer</h5>
+                                <p class="text-muted">Web & Software Development</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 text-center p-4">
+                                <i class="bi bi-lightbulb-fill text-warning fs-1 mb-3"></i>
+                                <h5>Learner</h5>
+                                <p class="text-muted">Always exploring new tech</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="h1 fw-bold text-center mb-5">Projects</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title">
+                                <i class="bi bi-calculator text-primary me-2"></i>Calculator App
+                            </h5>
+                            <p class="card-text">A clean, responsive calculator built with JavaScript featuring basic and advanced mathematical operations.</p>
+                            
+                            <!-- Simple Carousel -->
+                            <div id="calc-carousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="bg-light p-4 text-center rounded">
+                                            <i class="bi bi-calculator fs-1 text-muted"></i>
+                                            <p class="mt-2 mb-0 small">Main Interface</p>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="bg-light p-4 text-center rounded">
+                                            <i class="bi bi-clock-history fs-1 text-muted"></i>
+                                            <p class="mt-2 mb-0 small">History Feature</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#calc-carousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#calc-carousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </button>
+                            </div>
+
+                            <div class="mb-3">
+                                <span class="badge bg-warning me-1">JavaScript</span>
+                                <span class="badge bg-primary me-1">HTML</span>
+                                <span class="badge bg-success">CSS</span>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="View on GitHub">
+                                <i class="bi bi-github"></i> Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title">
+                                <i class="bi bi-globe text-success me-2"></i>Portfolio Site
+                            </h5>
+                            <p class="card-text">Personal portfolio website showcasing projects and skills with modern responsive design.</p>
+                            
+                            <div class="bg-light p-4 text-center rounded mb-3">
+                                <i class="bi bi-code-slash fs-1 text-muted"></i>
+                                <p class="mt-2 mb-0 small">Responsive Design</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <span class="badge bg-primary me-1">Bootstrap</span>
+                                <span class="badge bg-warning me-1">JavaScript</span>
+                                <span class="badge bg-success">CSS</span>
+                            </div>
+                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip" title="View Live Site">
+                                <i class="bi bi-eye"></i> Live
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="h1 fw-bold mb-4">Get In Touch</h2>
+                    <p class="lead mb-4">Let's connect and discuss opportunities!</p>
+                    
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <i class="bi bi-envelope-fill fs-4 me-3"></i>
+                                <div class="text-start">
+                                    <h6 class="mb-0">Email</h6>
+                                    <small class="text-muted">conor@byrnefamily.com</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <i class="bi bi-mortarboard fs-4 me-3"></i>
+                                <div class="text-start">
+                                    <h6 class="mb-0">School</h6>
+                                    <small class="text-muted">Winchester High School</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-light btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#contactModal">
+                        <i class="bi bi-send me-2"></i>Send Message
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact Conor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendMessage()">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" id="spinner"></span>
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="list-group list-group-flush">
+                <a href="#home" class="list-group-item list-group-item-action">Home</a>
+                <a href="#about" class="list-group-item list-group-item-action">About</a>
+                <a href="#skills" class="list-group-item list-group-item-action">Skills</a>
+                <a href="#projects" class="list-group-item list-group-item-action">Projects</a>
+                <a href="#contact" class="list-group-item list-group-item-action">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Button -->
+    <button class="btn btn-primary position-fixed bottom-0 end-0 m-3 rounded-circle" 
+            style="width: 50px; height: 50px;" 
+            data-bs-toggle="offcanvas" 
+            data-bs-target="#offcanvasMenu">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // JavaScript Function 1: Smooth scrolling and navigation
+        function smoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // JavaScript Function 2: Contact form with animation
+        function sendMessage() {
+            const spinner = document.getElementById('spinner');
+            const button = event.target;
+            
+            spinner.classList.remove('d-none');
+            button.disabled = true;
+            
+            setTimeout(() => {
+                spinner.classList.add('d-none');
+                button.disabled = false;
+                alert('Message sent! Conor will get back to you soon.');
+                bootstrap.Modal.getInstance(document.getElementById('contactModal')).hide();
+            }, 1500);
+        }
+
+        // JavaScript Animation: Fade in elements on scroll
+        function animateOnScroll() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-on-scroll');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.card, .progress').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Utility function
+        function scrollTo(section) {
+            document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            smoothScroll();
+            animateOnScroll();
+            
+            // Initialize tooltips
+            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltips.forEach(tooltip => new bootstrap.Tooltip(tooltip));
+        });
+    </script>
+</body>
+</html>
