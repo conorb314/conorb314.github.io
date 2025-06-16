@@ -62,7 +62,7 @@
             overflow: hidden;
             border-right: 2px solid #3498db;
             white-space: nowrap;
-            animation: typing 2s steps(30, end), blink 0.75s step-end infinite;
+            animation: typing 2s steps(100, end), blink 0.75s step-end infinite;
         }
 
         @keyframes typing {
@@ -120,7 +120,7 @@
                     <p class="typewriter h4 mb-4">Student Developer</p>
                     <p class="lead mb-4">Winchester High School student passionate about coding and technology.</p>
                     <button class="btn btn-light btn-lg me-3" data-bs-toggle="modal" data-bs-target="#contactModal">
-                        <i class="bi bi-envelope me-2"></i>Contact Me
+                        <i class="bi bi-envelope me-2"></i>Contact
                     </button>
                     <button class="btn btn-outline-light btn-lg" onclick="scrollTo('projects')">
                         <i class="bi bi-code-slash me-2"></i>View Work
@@ -140,30 +140,47 @@
     <section id="about" class="section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
+                <div class="col-lg-10 mx-auto text-center">
                     <h2 class="h1 fw-bold mb-5">About Me</h2>
                     <div class="row">
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 text-center p-4">
-                                <i class="bi bi-mortarboard-fill text-primary fs-1 mb-3"></i>
-                                <h5>Student</h5>
-                                <p class="text-muted">Winchester High School</p>
+                                <h5>Languages</h5>
+                                <p>Java, JavaScript, Python, SQL, HTML/CSS, C, C++</p>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 text-center p-4">
-                                <i class="bi bi-code-square text-success fs-1 mb-3"></i>
-                                <h5>Developer</h5>
-                                <p class="text-muted">Web & Software Development</p>
+            
+                                <h5>Frameworks</h5>
+                                <p>React, Bootstrap, Springboot, Django, Flask, Node.js, Tensorflow, OpenCV</p>
                             </div>
                         </div>
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 text-center p-4">
-                                <i class="bi bi-lightbulb-fill text-warning fs-1 mb-3"></i>
-                                <h5>Learner</h5>
-                                <p class="text-muted">Always exploring new tech</p>
+                                <h5>Tools</h5>
+                                <p>Git, VSCode, Docker</p>
                             </div>
                         </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 text-center p-4">
+                                <h5>Hardware</h5>
+                                <p>Raspberry Pi, Aurduino</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 text-center p-4">
+                                <h5>Databases</h5>
+                                <p>SQLite, PostgreSQL</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 text-center p-4">
+                                <h5>Cloud Platforms</h5>
+                                <p>AWS</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -181,17 +198,16 @@
                     <div class="card h-100">
                         <div class="card-body p-4">
                             <h5 class="card-title">
-                                <i class="bi bi-calculator text-primary me-2"></i>Calculator App
+                                <i class="bi bi-calculator text-primary me-2"></i>DevDock
                             </h5>
-                            <p class="card-text">A clean, responsive calculator built with JavaScript featuring basic and advanced mathematical operations.</p>
+                            <p class="card-text">A Slack Bot that can integrate with github repositories to teach users about the codebase of the company or group they are joining</p>
                             
                             <!-- Simple Carousel -->
                             <div id="calc-carousel" class="carousel slide mb-3" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <div class="bg-light p-4 text-center rounded">
-                                            <i class="bi bi-calculator fs-1 text-muted"></i>
-                                            <p class="mt-2 mb-0 small">Main Interface</p>
+                                        <div class="bg-light text-center rounded">
+                                            <img src="images/DevDock.png" width="100%" class="img-fluid rounded" alt="Dev Dock Screenshot">
                                         </div>
                                     </div>
                                     <div class="carousel-item">
@@ -255,35 +271,8 @@
     <section id="contact" class="section bg-dark text-white">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="h1 fw-bold mb-4">Get In Touch</h2>
-                    <p class="lead mb-4">Let's connect and discuss opportunities!</p>
-                    
-                    <div class="row justify-content-center">
-                        <div class="col-md-6 mb-3">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <i class="bi bi-envelope-fill fs-4 me-3"></i>
-                                <div class="text-start">
-                                    <h6 class="mb-0">Email</h6>
-                                    <small class="text-muted">conor@byrnefamily.com</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <i class="bi bi-mortarboard fs-4 me-3"></i>
-                                <div class="text-start">
-                                    <h6 class="mb-0">School</h6>
-                                    <small class="text-muted">Winchester High School</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-light btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#contactModal">
-                        <i class="bi bi-send me-2"></i>Send Message
-                    </button>
-                </div>
+                <div class="col-lg-8 mx-auto text-center"><p>Name: Conor Byrne Email: conor@byrnefamily.com Phone: +1 (781) 369-5065</p></div>
+
             </div>
         </div>
     </section>
